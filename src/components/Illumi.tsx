@@ -17,24 +17,25 @@ export const Illumi: React.FC<IllumiProps> = ({ children }) => {
     // Attempt to get configuration from URL
     const searchParams = new URLSearchParams(window.location.search);
     const encoded = searchParams.get("illumi");
+    let config;
     if (encoded) {
       const decoded = atob(encoded);
       localStorage.setItem("illumi", decoded);
-      const config = JSON.parse(decoded);
+      config = JSON.parse(decoded);
       setSelections(config.selections);
       return;
     }
     // Attempt to get config from local storage
     const item = localStorage.getItem("illumi");
     if (!item) return;
-    const config = JSON.parse(item);
+    config = JSON.parse(item);
     setSelections(config.selections);
   }, []);
 
   return (
     <ConfigContext.Provider
       value={{
-        selections: selections,
+        selections,
       }}
     >
       {children}
