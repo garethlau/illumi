@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, createContext } from "react";
 
-interface Config {
+export interface Config {
   selections: Record<string, string>;
 }
 
@@ -17,7 +17,6 @@ export const Illumi: React.FC<IllumiProps> = ({ children }) => {
     // Attempt to get configuration from URL
     const searchParams = new URLSearchParams(window.location.search);
     const encoded = searchParams.get("illumi");
-
     if (encoded) {
       const decoded = atob(encoded);
       localStorage.setItem("illumi", decoded);
