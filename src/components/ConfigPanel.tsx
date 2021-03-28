@@ -50,7 +50,10 @@ export const ConfigPanel: React.FC<{}> = () => {
 
   const [newSelection, setNewSelection] = useState<string[]>(["", ""]);
   const magicUrl = useMemo<string>(() => {
-    const config = { selections: selections };
+    const config = {
+      selections: selections,
+      clear: Object.keys(selections).length === 0,
+    };
     const encoded = btoa(JSON.stringify(config));
     return `${url}?illumi=${encoded}`;
   }, [selections]);

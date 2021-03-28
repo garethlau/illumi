@@ -44,14 +44,19 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config }) => {
       const decoded = atob(encoded);
       localStorage.setItem("illumi", decoded);
       config = JSON.parse(decoded);
+      if (config.clear) {
+        // Clear saved selections
+        localStorage.removeItem("illumi");
+      } else {
+        setSelections(config.selections);
+      }
+    } else {
+      // Attempt to get config from local storage
+      const item = localStorage.getItem("illumi");
+      if (!item) return;
+      config = JSON.parse(item);
       setSelections(config.selections);
-      return;
     }
-    // Attempt to get config from local storage
-    const item = localStorage.getItem("illumi");
-    if (!item) return;
-    config = JSON.parse(item);
-    setSelections(config.selections);
   }, []);
 
   return (
