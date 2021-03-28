@@ -9,12 +9,14 @@ const IllumiContext = createContext<{
   removeSelection: (name: string) => void;
 } | null>(null);
 
+export interface Config {
+  url?: string;
+  removeOnMount?: boolean;
+}
+
 export interface IllumiProps {
   children: React.ReactNode;
-  config?: {
-    url?: string;
-    removeOnMount?: boolean;
-  };
+  config?: Config;
 }
 
 export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
