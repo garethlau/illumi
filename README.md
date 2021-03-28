@@ -62,6 +62,16 @@ function App() {
 }
 ```
 
+Options
+
+- `config: Config`
+  - Optional
+  - `url: string`
+    - Used by configuration panel to generate the URL.
+  - `removeOnMount: boolean`
+    - Defaults to `true`
+    - Set to false to keep the stringified configuration object in the URL.
+
 ### `Selector`
 
 Consumes configuration object and determines which `Variant` should be displayed and which should be hidden. If no selections are matched, the default variant is selected. If no default is provided, the first element provided to the component is used as the fallback.
