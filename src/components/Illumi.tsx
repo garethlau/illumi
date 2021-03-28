@@ -65,7 +65,7 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config }) => {
       }}
     >
       {children}
-      <ConfigPanel />
+      {process.env.NODE_ENV !== "production" && <ConfigPanel />}
     </ConfigContext.Provider>
   );
 };
