@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { Illumi, Config } from "../components/Illumi";
+import { Illumi } from "../components/Illumi";
 import { Selector } from "../components/Selector";
 import { Variant } from "../components/Variant";
 import { createMemoryHistory } from "history";
@@ -11,7 +11,7 @@ function navigateTo(url: string) {
 }
 
 test("defaults to first variant", () => {
-  const { debug, getByText } = render(
+  const { getByText } = render(
     <Illumi>
       <Selector name="color">
         <Variant name="blue">
@@ -24,23 +24,16 @@ test("defaults to first variant", () => {
     </Illumi>
   );
   expect(getByText("Blue")).toBeInTheDocument();
-  debug();
 });
 
 test("renders variant from config object", () => {
   const history = createMemoryHistory();
 
-  const config: Config = {
-    selections: {
-      color: "red",
-    },
-  };
-
-  const encoded = btoa(JSON.stringify(config));
+  const encoded = btoa(JSON.stringify({ selections: { color: "red" } }));
   const url = "?illumi=" + encoded;
   navigateTo(url);
 
-  const { debug, getByText } = render(
+  const { getByText } = render(
     <Router history={history}>
       <Illumi>
         <Selector name="color">
@@ -56,10 +49,9 @@ test("renders variant from config object", () => {
   );
 
   expect(getByText("Red")).toBeInTheDocument();
-  debug();
 });
 test("renders the default variant", () => {
-  const { debug, getByText } = render(
+  const { getByText } = render(
     <Illumi>
       <Selector name="color">
         <Variant name="blue">
@@ -73,5 +65,4 @@ test("renders the default variant", () => {
   );
 
   expect(getByText("Red")).toBeInTheDocument();
-  debug();
 });
