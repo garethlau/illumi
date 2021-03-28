@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useConfig } from "./Illumi";
+import { useIllumi } from "./Illumi";
 import { Button } from "./Button";
 import { TextField } from "./TextField";
 import { Typography } from "./Typography";
@@ -46,7 +46,7 @@ export const ConfigPanel: React.FC<{}> = () => {
     updateSelection,
     addSelection,
     url,
-  } = useConfig();
+  } = useIllumi();
 
   const [newSelection, setNewSelection] = useState<string[]>(["", ""]);
   const magicUrl = useMemo<string>(() => {
