@@ -4,6 +4,21 @@ import { Button } from "./Button";
 import { TextField } from "./TextField";
 import { Typography } from "./Typography";
 import styled from "styled-components";
+import {
+  Table,
+  TableData,
+  TableHeader,
+  TableFoot,
+  TableBody,
+  TableHead,
+  TableRow,
+} from "./TableElements";
+
+const LinkContainer = styled.div`
+  overflow-x: auto;
+  background-color: #edf3f8;
+  padding: 5px;
+`;
 
 const Container = styled.div`
   padding: 20px;
@@ -12,31 +27,6 @@ const Container = styled.div`
 
 const TableContainer = styled.div`
   overflow-x: auto;
-`;
-const TableData = styled.td`
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-`;
-const TableHead = styled.th`
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-`;
-const TableRow = styled.tr``;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-  ${TableRow}:nth-child(even) {
-    background-color: #edf3f8;
-  }
-`;
-
-const LinkContainer = styled.div`
-  overflow-x: auto;
-  background-color: #edf3f8;
-  padding: 5px;
 `;
 
 export const ConfigPanel: React.FC<{}> = () => {
@@ -67,68 +57,74 @@ export const ConfigPanel: React.FC<{}> = () => {
       <Typography variant="h1">Selections</Typography>
       <TableContainer>
         <Table>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Value</TableHead>
-            <TableHead>Options</TableHead>
-          </TableRow>
-          {Object.keys(selections).map((name) => (
-            <TableRow key={name}>
+          <TableHead>
+            <TableRow>
+              <TableHeader>Name</TableHeader>
+              <TableHeader>Value</TableHeader>
+              <TableHeader>Options</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.keys(selections).map((name) => (
+              <TableRow key={name}>
+                <TableData>
+                  <Typography>{name}</Typography>
+                </TableData>
+                <TableData>
+                  <TextField
+                    type="text"
+                    value={selections[name]}
+                    onChange={(e) => {
+                      updateSelection(name, e.target.value);
+                    }}
+                  />
+                </TableData>
+                <TableData>
+                  <Button
+                    onClick={() => {
+                      removeSelection(name);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableData>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFoot>
+            <TableRow>
               <TableData>
-                <Typography>{name}</Typography>
+                <TextField
+                  type="text"
+                  value={newSelection[0]}
+                  placeholder="Name"
+                  onChange={(e) =>
+                    setNewSelection((prev) => [e.target.value, prev[1]])
+                  }
+                />
               </TableData>
               <TableData>
                 <TextField
                   type="text"
-                  value={selections[name]}
-                  onChange={(e) => {
-                    updateSelection(name, e.target.value);
-                  }}
+                  placeholder="Value"
+                  value={newSelection[1]}
+                  onChange={(e) =>
+                    setNewSelection((prev) => [prev[0], e.target.value])
+                  }
                 />
               </TableData>
               <TableData>
                 <Button
                   onClick={() => {
-                    removeSelection(name);
+                    addSelection(newSelection[0], newSelection[1]);
+                    setNewSelection(["", ""]);
                   }}
                 >
-                  Delete
+                  Add
                 </Button>
               </TableData>
             </TableRow>
-          ))}
-          <TableRow>
-            <TableData>
-              <TextField
-                type="text"
-                value={newSelection[0]}
-                placeholder="Name"
-                onChange={(e) =>
-                  setNewSelection((prev) => [e.target.value, prev[1]])
-                }
-              />
-            </TableData>
-            <TableData>
-              <TextField
-                type="text"
-                placeholder="Value"
-                value={newSelection[1]}
-                onChange={(e) =>
-                  setNewSelection((prev) => [prev[0], e.target.value])
-                }
-              />
-            </TableData>
-            <TableData>
-              <Button
-                onClick={() => {
-                  addSelection(newSelection[0], newSelection[1]);
-                  setNewSelection(["", ""]);
-                }}
-              >
-                Add
-              </Button>
-            </TableData>
-          </TableRow>
+          </TableFoot>
         </Table>
       </TableContainer>
     </Container>
