@@ -38,11 +38,14 @@ export const Selector: React.FC<SelectorProps> = ({ name, children }) => {
     if (elems.length === 1) {
       return elems[0];
     }
-    return null;
+    return childArray[0];
   }, [childArray]);
 
   if (React.Children.count(children) === 1) {
     return <span>{children}</span>;
+  } else if (React.Children.count(selectedVariant) === 0) {
+    // No match, fallback to default or first element
+    return <span>{fallback}</span>;
   } else if (selection) {
     return <span selector-name={name}>{selectedVariant}</span>;
   } else if (fallback) {
