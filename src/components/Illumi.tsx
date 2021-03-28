@@ -39,27 +39,40 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
 
   useEffect(() => {
     const history = createBrowserHistory();
-    // Attempt to get configuration from URL
     const searchParams = new URLSearchParams(window.location.search);
+    let illumi;
+
+    // Attempt to get configuration from URL
     const encoded = searchParams.get("illumi");
-    let config;
+
     if (encoded) {
+      // Encoded configuration object is in the URL
+      // Decode config object
       const decoded = atob(encoded);
+
+      // Save to storage
       localStorage.setItem("illumi", decoded);
-      config = JSON.parse(decoded);
-      if (config.clear) {
-        // Clear saved selections
-        localStorage.removeItem("illumi");
-      } else {
-        setSelections(config.selections);
-      }
+      illumi = JSON.parse(decoded);
     } else {
-      // Attempt to get config from local storage
+      // No config object in URL, check storage
       const item = localStorage.getItem("illumi");
-      if (!item) return;
-      config = JSON.parse(item);
-      setSelections(config.selections);
+      if (!item) return; // No config object in storage
+      illumi = JSON.parse(item);
     }
+
+    if (!illumi) {
+      // No config object
+      return;
+    }
+
+    if (illumi.clear) {
+      // Clear previously saved configurations
+      localStorage.removeItem("illumi");
+    } else {
+      // Use configuration to select variants
+      setSelections(illumi.selections);
+    }
+
     if (removeOnMount) {
       // Remove the configuration search param
       searchParams.delete("illumi");
