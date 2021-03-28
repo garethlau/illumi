@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState, createContext } from "react";
 import { ConfigPanel } from "./ConfigPanel";
+import { createBrowserHistory } from "history";
 
 const IllumiContext = createContext<{
   selections: Record<string, string>;
@@ -21,7 +22,7 @@ export interface IllumiProps {
 
 export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
   const [selections, setSelections] = useState<Record<string, string>>({});
-  const { url = "" } = config;
+  const { url = "", removeOnMount = true } = config;
 
   function updateSelection(name: string, value: string) {
     setSelections((prev) => ({ ...prev, [name]: value }));
@@ -37,6 +38,7 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
   }
 
   useEffect(() => {
+    const history = createBrowserHistory();
     // Attempt to get configuration from URL
     const searchParams = new URLSearchParams(window.location.search);
     const encoded = searchParams.get("illumi");
@@ -57,6 +59,11 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
       if (!item) return;
       config = JSON.parse(item);
       setSelections(config.selections);
+    }
+    if (removeOnMount) {
+      // Remove the configuration search param
+      searchParams.delete("illumi");
+      history.replace({ search: searchParams.toString() });
     }
   }, []);
 
