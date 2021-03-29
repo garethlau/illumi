@@ -99,7 +99,7 @@ export const ConfigPanel: React.FC<{}> = () => {
                   value={newSelection[0]}
                   placeholder="Name"
                   onChange={(e) =>
-                    setNewSelection((prev) => [e.target.value, prev[1]])
+                    setNewSelection((prev) => [e.currentTarget.value, prev[1]])
                   }
                 />
               </TableData>
@@ -109,7 +109,7 @@ export const ConfigPanel: React.FC<{}> = () => {
                   placeholder="Value"
                   value={newSelection[1]}
                   onChange={(e) =>
-                    setNewSelection((prev) => [prev[0], e.target.value])
+                    setNewSelection((prev) => [prev[0], e.currentTarget.value])
                   }
                 />
               </TableData>
