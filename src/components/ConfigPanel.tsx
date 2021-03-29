@@ -48,6 +48,10 @@ export const ConfigPanel: React.FC<{}> = () => {
     return `${url}?illumi=${encoded}`;
   }, [selections]);
 
+  if (process.env.NODE_ENV === "production") {
+    // Disable configuration in production environments
+    return null;
+  }
   return (
     <Container>
       <Typography variant="p">Share this link:</Typography>

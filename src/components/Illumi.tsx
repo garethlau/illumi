@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, createContext } from "react";
-import { ConfigPanel } from "./ConfigPanel";
 import { createBrowserHistory } from "history";
 
 const IllumiContext = createContext<{
@@ -91,7 +90,6 @@ export const Illumi: React.FC<IllumiProps> = ({ children, config = {} }) => {
       }}
     >
       {children}
-      {process.env.NODE_ENV !== "production" && <ConfigPanel />}
     </IllumiContext.Provider>
   );
 };
