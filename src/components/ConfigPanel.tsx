@@ -78,8 +78,11 @@ export const ConfigPanel: React.FC<{}> = () => {
                   <TextField
                     type="text"
                     value={selections[name]}
-                    onChange={(e) => {
-                      updateSelection(name, e.target.value);
+                    onInput={(e) => {
+                      updateSelection(
+                        name,
+                        (e.target as HTMLTextAreaElement).value
+                      );
                     }}
                   />
                 </TableData>
@@ -102,8 +105,11 @@ export const ConfigPanel: React.FC<{}> = () => {
                   type="text"
                   value={newSelection[0]}
                   placeholder="Name"
-                  onChange={(e) =>
-                    setNewSelection((prev) => [e.currentTarget.value, prev[1]])
+                  onInput={(e) =>
+                    setNewSelection((prev) => [
+                      (e.target as HTMLTextAreaElement).value,
+                      prev[1],
+                    ])
                   }
                 />
               </TableData>
@@ -112,8 +118,11 @@ export const ConfigPanel: React.FC<{}> = () => {
                   type="text"
                   placeholder="Value"
                   value={newSelection[1]}
-                  onChange={(e) =>
-                    setNewSelection((prev) => [prev[0], e.currentTarget.value])
+                  onInput={(e) =>
+                    setNewSelection((prev) => [
+                      prev[0],
+                      (e.target as HTMLTextAreaElement).value,
+                    ])
                   }
                 />
               </TableData>
